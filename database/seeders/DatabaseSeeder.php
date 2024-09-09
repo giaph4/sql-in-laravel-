@@ -19,11 +19,13 @@ class DatabaseSeeder extends Seeder
             TheLoaiSeeder::class,
             TacGiaSeeder::class,
             SachSeeder::class,
+            KhachHangSeeder::class,
             NhaXuatBanSeeder::class,
             HoaDonSeeder::class,
             ChiTietHoaDonSeeder::class,
             ChiTietPhieuNhapSeeder::class,
             PhieuNhapSeeder::class,
+            DanhGiaSeeder::class,
         ]);
     }
 }
