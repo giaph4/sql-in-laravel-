@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('id_khach_hang');
             $table->integer('sao_danh_gia');
             $table->string('noi_dung');
+            $table->string('ngay_danh_gia');
             $table->timestamps();
         });
     }

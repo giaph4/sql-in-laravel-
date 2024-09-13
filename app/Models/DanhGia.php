@@ -14,5 +14,6 @@ class DanhGia extends Model
         'id_khach_hang',
         'sao_danh_gia',
         'noi_dung',
+        'ngay_danh_gia'
     ];
 }
