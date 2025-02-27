@@ -1,0 +1,84 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\HoaDon;
+use App\Models\PhieuNhap;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class ThongKeController extends Controller
+{
+    //
+    public function thongKe1()
+    {
+        $data = HoaDon::join('chi_tiet_hoa_dons', 'hoa_dons.id', 'chi_tiet_hoa_dons.id_hoa_don')
+            ->select('ngay_ban', DB::raw('SUM(chi_tiet_hoa_dons.so_luong_ban) as tong_so_luong_ban'))
+            ->groupBy('ngay_ban')
+            ->get();
+        $listNgayBan = [];
+        $listSoLuongBan = [];
+
+        for ($i = 0; $i < count($data); $i++) {
+            $item = $data[$i];
+
+            $listNgayBan[$i] = $item->ngay_ban;
+            $listSoLuongBan[$i] = $item->tong_so_luong_ban;
+        }
+
+        return response()->json([
+            'data' => $data,
+            'listNgayBan' => $listNgayBan,
+            'listSoLuongBan' => $listSoLuongBan
+        ]);
+    }
+
+    public function searchthongKe1(Request $request)
+    {
+        $data = HoaDon::join('chi_tiet_hoa_dons', 'hoa_dons.id', 'chi_tiet_hoa_dons.id_hoa_don')
+            ->where('hoa_dons.ngay_ban' , '>=' , $request->tu_ngay)
+            ->where('hoa_dons.ngay_ban' , '<=' , $request->den_ngay)
+            ->select('ngay_ban', DB::raw('SUM(chi_tiet_hoa_dons.so_luong_ban) as tong_so_luong_ban'))
+            ->groupBy('ngay_ban')
+            ->get();
+        $listNgayBan = [];
+        $listSoLuongBan = [];
+
+        for ($i = 0; $i < count($data); $i++) {
+            $item = $data[$i];
+
+            $listNgayBan[$i] = $item->ngay_ban;
+            $listSoLuongBan[$i] = $item->tong_so_luong_ban;
+        }
+
+        return response()->json([
+            'data' => $data,
+            'listNgayBan' => $listNgayBan,
+            'listSoLuongBan' => $listSoLuongBan
+        ]);
+    }
+
+    public function thongKe2()
+    {
+        $data = PhieuNhap::join('chi_tiet_phieu_nhaps', 'phieu_nhaps.id', 'chi_tiet_phieu_nhaps.id_phieu_nhap')
+            ->select('ngay_nhap', DB::raw('SUM(chi_tiet_phieu_nhaps.so_luong_nhap) as tong_so_luong_nhap'))
+            ->groupBy('ngay_ban')
+            ->get();
+        $listNgayNhap = [];
+        $listSoLuongNhap = [];
+
+        for ($i = 0; $i < count($data); $i++) {
+            $item = $data[$i];
+
+            $listNgayNhap[$i] = $item->ngay_ban;
+            $listSoLuongNhap[$i] = $item->tong_so_luong_ban;
+        }
+
+        return response()->json([
+            'data' => $data,
+            'listNgayNhap' => $listNgayNhap,
+            'listSoLuongNhap' => $listSoLuongNhap
+        ]);
+    }
+
+}
